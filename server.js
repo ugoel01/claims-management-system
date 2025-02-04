@@ -1,6 +1,7 @@
 require('dotenv').config(); // Load .env file
 const express = require('express');
 const connectDB = require('./config/db');
+const { swaggerUi, swaggerSpec } = require("./config/swaggerConfig");
 const userRoutes = require('./routes/userRoutes');
 const claimRoutes = require('./routes/claimRoutes');
 const policyRoutes = require('./routes/policyRoutes');
@@ -18,6 +19,9 @@ app.use('/policies', policyRoutes);
 
 // Home route
 app.get('/', (req, res) => res.send('Claims Management API is running!'));
+
+// Serve Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Start server
 const PORT = process.env.PORT || 5000;
