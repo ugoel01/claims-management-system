@@ -13,7 +13,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/policies:
+ * /policies:
  *   get:
  *     summary: Get all policies
  *     tags: [Policies]
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
 
 /**
  * @swagger
- * /api/policies/{id}:
+ * /policies/{id}:
  *   get:
  *     summary: Get a policy by ID
  *     tags: [Policies]
@@ -65,7 +65,7 @@ router.get('/:id', async (req, res) => {
 
 /**
  * @swagger
- * /api/policies:
+ * /policies:
  *   post:
  *     summary: Create a new policy (Admin only)
  *     tags: [Policies]
@@ -105,7 +105,7 @@ router.post('/', verifyToken, verifyAdmin, async (req, res) => {
 
 /**
  * @swagger
- * /api/policies/{id}:
+ * /policies/{id}:
  *   delete:
  *     summary: Delete a policy (Admin only)
  *     tags: [Policies]
@@ -150,7 +150,7 @@ router.delete('/:id', verifyToken, verifyAdmin, async (req, res) => {
 
 /**
  * @swagger
- * /api/policies/buy/{policyId}:
+ * /policies/buy/{policyId}:
  *   post:
  *     summary: Buy a policy
  *     tags: [Policies]

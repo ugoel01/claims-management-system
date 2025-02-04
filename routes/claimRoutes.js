@@ -24,7 +24,7 @@ const transporter = nodemailer.createTransport({
 
 /**
  * @swagger
- * /api/claims:
+ * /claims:
  *   get:
  *     summary: Get all claims (Admin only)
  *     tags: [Claims]
@@ -47,7 +47,7 @@ router.get('/', verifyToken, verifyAdmin, async (req, res) => {
 
 /**
  * @swagger
- * /api/claims/{id}:
+ * /claims/{id}:
  *   get:
  *     summary: Get a claim by ID
  *     tags: [Claims]
@@ -78,7 +78,7 @@ router.get('/:id', async (req, res) => {
 
 /**
  * @swagger
- * /api/claims:
+ * /claims:
  *   post:
  *     summary: Create a new claim
  *     tags: [Claims]
@@ -139,7 +139,7 @@ router.post('/', verifyToken, verifyUser, async (req, res) => {
 
 /**
  * @swagger
- * /api/claims/{id}/status:
+ * /claims/{id}/status:
  *   put:
  *     summary: Update claim status (Admin only)
  *     tags: [Claims]
@@ -208,7 +208,7 @@ router.put('/:id/status', verifyToken, verifyAdmin, async (req, res) => {
 
 /**
  * @swagger
- * /api/claims/{id}:
+ * /claims/{id}:
  *   delete:
  *     summary: Delete a claim (Admin only)
  *     tags: [Claims]
