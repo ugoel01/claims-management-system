@@ -36,36 +36,22 @@ router.get('/', verifyToken, async (req, res) => {
     }
 });
 
-/**
- * @swagger
- * /users/{id}:
- *   get:
- *     summary: Get a user by ID
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: The user ID
- *     responses:
- *       200:
- *         description: User details
- *       404:
- *         description: User not found
- *       500:
- *         description: Server error
- */
-router.get('/:id', async (req, res) => {
+// Get policies purchased by the user
+router.get('/policies', verifyToken, async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        if (!user) return res.status(404).json({ message: 'User not found' });
-        res.json(user);
+        const userId = req.user.id;
+    
+        // Find the user and populate purchased policies
+        const user = await User.findById(userId).populate('purchased_policies');
+        if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+        }
+    
+        res.json(user.purchased_policies); // Send purchased policies back
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-});
+    });
 
 /**
  * @swagger
@@ -267,5 +253,7 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+
 
 module.exports = router;

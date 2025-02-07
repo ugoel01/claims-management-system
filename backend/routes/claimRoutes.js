@@ -66,15 +66,16 @@ router.get('/', verifyToken, verifyAdmin, async (req, res) => {
  *       500:
  *         description: Server error
  */
-router.get('/:id', async (req, res) => {
+router.get('/userClaims', verifyToken, async (req, res) => {
     try {
-        const claim = await Claim.findById(req.params.id).populate('user_id policy_id');
-        if (!claim) return res.status(404).json({ message: 'Claim not found' });
-        res.json(claim);
+        const userId = req.user.id; // Extract `user_id` from the token
+        const claims = await Claim.find({ user_id: userId }).populate('policy_id'); // Populate policy details
+        res.json(claims);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
+
 
 /**
  * @swagger
@@ -102,8 +103,6 @@ router.get('/:id', async (req, res) => {
  *                 type: number
  *               description:
  *                 type: string
- *               support_document:
- *                 type: string
  *     responses:
  *       201:
  *         description: Claim created successfully
@@ -112,30 +111,31 @@ router.get('/:id', async (req, res) => {
  */
 router.post('/', verifyToken, verifyUser, async (req, res) => {
     try {
-        const { user_id, policy_id, claim_date, amount, description, support_document } = req.body;
+        const { policy_id, claim_date, amount, description } = req.body;
+
+        // Extract user ID from the token
+        const user_id = req.user.id; 
 
         const policy = await Policy.findById(policy_id);
         if (!policy) return res.status(400).json({ message: 'Invalid policy ID' });
 
         if (amount <= 0 || amount > policy.premium_amount) {
-            return res.status(400).json({ message: 'Claim amount exceeds policy premium or is invalid' });
+            return res.status(400).json({ message: 'Claim amount exceeds policy coverage or is invalid' });
         }
 
         if (new Date(claim_date) >= new Date(policy.policy_end_date)) {
             return res.status(400).json({ message: 'Claim date must be before policy end date' });
         }
 
-        if (!support_document.endsWith('.pdf')) {
-            return res.status(400).json({ message: 'Only PDF format is allowed' });
-        }
-
-        const claim = new Claim(req.body);
+        const claim = new Claim({ user_id, policy_id, claim_date, amount, description });
         await claim.save();
         res.status(201).json(claim);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
+
+
 
 /**
  * @swagger

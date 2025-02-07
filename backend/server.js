@@ -1,6 +1,7 @@
 require('dotenv').config(); // Load .env file
 const express = require('express');
 const connectDB = require('./config/db');
+const cors = require('cors');
 const { swaggerUi, swaggerSpec } = require("./config/swaggerConfig");
 const userRoutes = require('./routes/userRoutes');
 const claimRoutes = require('./routes/claimRoutes');
@@ -8,6 +9,8 @@ const policyRoutes = require('./routes/policyRoutes');
 
 const app = express();
 app.use(express.json());
+
+app.use(cors({ origin: "http://localhost:3000" })); 
 
 // Connect to MongoDB
 connectDB();
@@ -22,6 +25,7 @@ app.get('/', (req, res) => res.send('Claims Management API is running!'));
 
 // Serve Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // Start server
 const PORT = process.env.PORT || 5000;

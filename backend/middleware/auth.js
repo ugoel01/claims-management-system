@@ -19,16 +19,20 @@ const verifyUser = async (req, res, next) => {
 };
 
 const verifyToken = (req, res, next) => {
-    const token = req.header('Authorization');
-    if (!token) return res.status(401).json({ message: "Access Denied. No token provided" });
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Access denied, token missing!" });
+  }
 
-    try {
-        const verified = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);  
-        req.user = verified;  // Attach user details to request
-        next();
-    } catch (err) {
-        res.status(400).json({ message: "Invalid Token" });
-    }
+  const token = authHeader.split(" ")[1];
+
+  try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded; // Attach user data to the request
+      next();
+  } catch (err) {
+      res.status(401).json({ message: "Invalid token" });
+  }
 };
 
 module.exports = { verifyAdmin, verifyUser, verifyToken };

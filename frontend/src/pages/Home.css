@@ -1,0 +1,136 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+.home-container {
+  text-align: center;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  padding: 220px 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../assets/hero-img.jpg'); 
+  background-size: cover;
+  background-position: center;
+  filter: contrast(30%);
+  z-index: -1; /* Ensure the image stays in the background */
+}
+
+.hero h1 {
+  font-size: 2.5em;
+  color: #c7e1ce;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin-top: 10px;
+  color: #d5f3d0;
+}
+
+.cta-button-1 {
+  background-color: #45474a;
+  color: #c7e1ce;
+  border: none;
+  padding: 10px 35px;
+  font-size: 1em;
+  margin-top: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cta-button-1:hover {
+  background-color: black;
+}
+
+.cta-button-2 {
+  background-color: #c7e1ce;
+  color: #45474a;
+  border: none;
+  padding: 10px 35px;
+  font-size: 1em;
+  margin-top: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cta-button-2:hover {
+  background-color: #d5f3d0;
+}
+
+/* Features Section */
+.features {
+  padding: 50px 20px;
+  background-color: #c3ccc5;
+  color: #45474a;
+}
+
+.features h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.features-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.feature-box {
+  background: #9dab9f;
+  padding: 20px;
+  width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.feature-box h3 {
+  font-size: 1.2em;
+}
+
+.feature-box p {
+  font-size: 1em;
+  color: #666;
+}
+
+/* About Us Section */
+.cta {
+  background-color: #9dab9f;
+  color: #666;
+  padding: 40px 20px;
+}
+
+.cta h2 {
+  font-size: 2em;
+}
+
+.cta p {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+/* Footer */
+.footer {
+  background-color: #9dab9f;
+  color: #45474a;
+  padding: 15px;
+  font-size: 0.9em;
+}

@@ -1,0 +1,106 @@
+
+.company-name {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #c3ccc5;
+    background-color: #333;
+    position: absolute;
+    top: 0;
+    left: 0; 
+    width: 100%;
+    padding: 10px 0; 
+    z-index: 1; 
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+  
+  .signup-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .signup-form {
+    background-color: #9dab9f;
+    padding: 120px 70px 30px 70px; 
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: relative; 
+  }
+  
+  .signup-form h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-align: center;
+  }
+  
+  .form-field {
+    margin-bottom: 15px;
+  }
+  
+  .form-field label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-field input,
+  .form-field select {
+    width: 90%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #c3ccc5;
+  }
+
+  .form-field select {
+    width: 95%;
+  }
+  
+  .signup-button {
+    width: 75%;
+    padding: 10px;
+    font-size: 1.2em;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .signup-button:hover {
+    background-color: black;
+  }
+  
+  .close-button {
+    width: 75%;
+    padding: 10px;
+    font-size: 1.2em;
+    background-color: #c3ccc5;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .close-button:hover {
+    background-color: #c7e1ce;
+  }
+
+  .message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  

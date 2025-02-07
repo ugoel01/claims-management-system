@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     unique: true, 
     match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ 
   },
-  username: { type: String, required: true, unique: true },
+  username: { type: String, required: true },
   role: { type: String, enum: ['user', 'admin'], required: true },
   password_hash: { type: String, required: true },
   purchased_policies: [
