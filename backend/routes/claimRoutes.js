@@ -47,34 +47,51 @@ router.get('/', verifyToken, verifyAdmin, async (req, res) => {
 
 /**
  * @swagger
- * /claims/{id}:
+ * /claims/userClaims:
  *   get:
- *     summary: Get a claim by ID
+ *     summary: Get claims of the authenticated user
  *     tags: [Claims]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID of the claim
- *         schema:
- *           type: string
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: Successfully retrieved claim
- *       404:
- *         description: Claim not found
+ *         description: Successfully retrieved user's claims
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   policy_id:
+ *                     type: object
+ *                   claim_date:
+ *                     type: string
+ *                     format: date
+ *                   amount:
+ *                     type: number
+ *                   description:
+ *                     type: string
+ *                   status:
+ *                     type: string
+ *                     enum: [pending, approved, rejected]
+ *       401:
+ *         description: Unauthorized - Token required
  *       500:
  *         description: Server error
  */
 router.get('/userClaims', verifyToken, async (req, res) => {
     try {
         const userId = req.user.id; // Extract `user_id` from the token
-        const claims = await Claim.find({ user_id: userId }).populate('policy_id'); // Populate policy details
+        const claims = await Claim.find({ user_id: userId }).populate('policy_id'); 
         res.json(claims);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
+
 
 
 /**
@@ -206,37 +223,5 @@ router.put('/:id/status', verifyToken, verifyAdmin, async (req, res) => {
     }
 });
 
-/**
- * @swagger
- * /claims/{id}:
- *   delete:
- *     summary: Delete a claim (Admin only)
- *     tags: [Claims]
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID of the claim to delete
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Claim deleted successfully
- *       404:
- *         description: Claim not found
- *       500:
- *         description: Server error
- */
-router.delete('/:id', verifyToken, verifyAdmin, async (req, res) => {
-    try {
-        const deletedClaim = await Claim.findByIdAndDelete(req.params.id);
-        if (!deletedClaim) return res.status(404).json({ message: 'Claim not found' });
-        res.json({ message: 'Claim deleted successfully' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
 
 module.exports = router;

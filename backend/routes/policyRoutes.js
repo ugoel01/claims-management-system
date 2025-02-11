@@ -35,37 +35,6 @@ router.get('/', async (req, res) => {
 
 /**
  * @swagger
- * /policies/{id}:
- *   get:
- *     summary: Get a policy by ID
- *     tags: [Policies]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID of the policy
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully retrieved policy
- *       404:
- *         description: Policy not found
- *       500:
- *         description: Server error
- */
-router.get('/:id', async (req, res) => {
-    try {
-        const policy = await Policy.findById(req.params.id);
-        if (!policy) return res.status(404).json({ message: 'Policy not found' });
-        res.json(policy);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-/**
- * @swagger
  * /policies:
  *   post:
  *     summary: Create a new policy (Admin only)

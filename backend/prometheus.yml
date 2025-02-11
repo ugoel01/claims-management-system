@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s  # Frequency of scraping data
+
+scrape_configs:
+  - job_name: 'claims-management-system'
+    static_configs:
+      - targets: ['localhost:5000']  

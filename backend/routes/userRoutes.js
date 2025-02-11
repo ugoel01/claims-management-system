@@ -15,28 +15,36 @@ const jwt = require('jsonwebtoken');
 
 /**
  * @swagger
- * /users:
+ * /policies:
  *   get:
- *     summary: Get all users
- *     tags: [Users]
+ *     summary: Get policies purchased by the authenticated user
+ *     tags: [Policies]
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: List of all users
+ *         description: Successfully retrieved user's purchased policies
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   premium_amount:
+ *                     type: number
+ *                   policy_end_date:
+ *                     type: string
+ *                     format: date
+ *       401:
+ *         description: Unauthorized - Token required
+ *       404:
+ *         description: User not found
  *       500:
  *         description: Server error
  */
-router.get('/', verifyToken, async (req, res) => {
-    try {
-        const users = await User.find();
-        res.json(users);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// Get policies purchased by the user
 router.get('/policies', verifyToken, async (req, res) => {
     try {
         const userId = req.user.id;
@@ -44,14 +52,15 @@ router.get('/policies', verifyToken, async (req, res) => {
         // Find the user and populate purchased policies
         const user = await User.findById(userId).populate('purchased_policies');
         if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
     
         res.json(user.purchased_policies); // Send purchased policies back
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-    });
+});
+
 
 /**
  * @swagger
@@ -118,85 +127,6 @@ router.post('/', async (req, res) => {
 
     } catch (err) {
         res.status(400).json({ message: err.message });
-    }
-});
-
-/**
- * @swagger
- * /users/{id}:
- *   put:
- *     summary: Update user details
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: The user ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               email:
- *                 type: string
- *               role:
- *                 type: string
- *     responses:
- *       200:
- *         description: User updated successfully
- *       404:
- *         description: User not found
- *       400:
- *         description: Bad request
- */
-router.put('/:id', verifyToken, async (req, res) => {
-    try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedUser) return res.status(404).json({ message: 'User not found' });
-        res.json(updatedUser);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
-
-/**
- * @swagger
- * /users/{id}:
- *   delete:
- *     summary: Delete a user
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: The user ID
- *     responses:
- *       200:
- *         description: User deleted successfully
- *       404:
- *         description: User not found
- *       500:
- *         description: Server error
- */
-router.delete('/:id', verifyToken, async (req, res) => {
-    try {
-        const deletedUser = await User.findByIdAndDelete(req.params.id);
-        if (!deletedUser) return res.status(404).json({ message: 'User not found' });
-        res.json({ message: 'User deleted successfully' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
     }
 });
 
